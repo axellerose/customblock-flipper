@@ -194,13 +194,19 @@
 				box-shadow: 0 20px 20px rgba(255, 255, 255, 0.2);
 				}
 			</style>
+			<div  style="color: ${fontColor}">
+			<h1>${text}</h1>
+		</div>
 				<div class="flipper__wrapper">
 			
 			<!-- Use label > input combination to controll state -->
+			
 			<label>
 				<input type="checkbox" />
 				<div class="card">
-				<div class="front">I'm front</div>
+				<div class="front" style="color: ${fontColor}">
+					<h1>${text}</h1>
+				</div>
 				<div class="back">I'm back</div>
 				</div>
 			</label>
