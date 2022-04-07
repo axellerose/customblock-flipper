@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<title>Maps Block</title>
-		<link rel="stylesheet" type="text/css" href="styles.css" />
 	</head>
 	<body>
 		<article class="slds-card">
@@ -24,25 +23,60 @@
       </div>
     </header>
   </div>
+
   <div class="slds-card__body slds-card__body_inner">
-  <div id="workspace">
+	<div id="workspace">
+
+	<!-- 
+		contentBlockFront
+		contentBlockBack
+		flipDirection
+		flipAnimationDuration 
+	-->
 
 
-	<div class="slds-form-element">
-		<label class="slds-form-element__label" for="form-element-color">Background color</label>
-		<div class="slds-form-element__control">
-		  <input type="text" id="form-element-color" placeholder="#B24C63" class="slds-input" />
+		<div class="slds-form-element">
+			<label class="slds-form-element__label" for="form-element-contentBlockFront">Front side Block ID</label>
+			<div class="slds-form-element__control">
+			<input type="number" id="form-element-contentBlockFront" placeholder="Enter Block ID" class="slds-input" />
+			</div>
 		</div>
-	  </div>
-	  <div class="slds-form-element">
-		<label class="slds-form-element__label" for="form-element-text">Text input</label>
-		<div class="slds-form-element__control">
-		  <input type="text" id="form-element-text" placeholder="Text input" class="slds-input" />
+		<div class="slds-form-element">
+			<label class="slds-form-element__label" for="form-element-contentBlockBack">Back side Block ID</label>
+			<div class="slds-form-element__control">
+			<input type="number" id="form-element-contentBlockBack" placeholder="Enter Block ID" class="slds-input" />
+			</div>
 		</div>
-	  </div>
-
-
+		<fieldset class="slds-form-element slds-is-required">
+			<legend class="slds-form-element__legend slds-form-element__label">
+				<abbr class="required" title="required">*</abbr>
+				Flip Direction
+			</legend>
+			<div class="slds-form-element__control">
+				<span class="slds-radio">
+					<input type="radio" id="radio-hor" value="radio-5" name="default" checked="" />
+					<label class="slds-radio__label" for="radio-5">
+						<span class="slds-radio_faux"></span>
+						<span class="slds-form-element__label">Horizonral</span>
+					</label>
+				</span>
+				<span class="slds-radio">
+					<input type="radio" id="radio-ver" value="radio-6" name="default" />
+					<label class="slds-radio__label" for="radio-6">
+						<span class="slds-radio_faux"></span>
+						<span class="slds-form-element__label">Vertical</span>
+					</label>
+				</span>
+			</div>
+		</fieldset>
+		<div class="slds-form-element">
+			<label class="slds-form-element__label" for="form-element-flipAnimationDuration ">Duration of Animation</label>
+			<div class="slds-form-element__control">
+			<input type="number" id="form-element-flipAnimationDuration " placeholder="600" class="slds-input" />
+			</div>
 		</div>
+
+	</div>
   </div>
 </article>
 		
