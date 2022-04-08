@@ -8,8 +8,8 @@ let contentBlockFront, contentBlockBack, flipDirection, flipAnimationDuration ;
 const getSettings = () => {
   document.getElementById("form-element-contentBlockFront").value = contentBlockFront;
   document.getElementById("form-element-contentBlockBack").value = contentBlockBack;
-  document.getElementById("form-element-flipAnimationDuration").value = flipAnimationDuration;
-  if(document.querySelector('input[id="radio-hor"]:checked').value) {
+//   document.getElementById("form-element-flipAnimationDuration").value = flipAnimationDuration;
+  if(document.querySelector('input[id="radio-hor"]:checked')) {
 	  flipDirection = 'horizontal'
   } else{ 
 	flipDirection = 'vertical'
@@ -20,50 +20,18 @@ const getSettings = () => {
 const paintFlipper = () => {
 	contentBlockFront = document.getElementById("form-element-contentBlockFront").value;
 	contentBlockBack = document.getElementById("form-element-contentBlockBack").value;
-	flipAnimationDuration = document.getElementById("form-element-flipAnimationDuration").value;
-	if(document.querySelector('input[id="radio-hor"]:checked').value) {
+	// flipAnimationDuration = document.getElementById("form-element-flipAnimationDuration").value;
+	if(document.querySelector('input[id="radio-hor"]:checked')) {
 		flipDirection = 'horizontal'
 	} else{ 
 	  flipDirection = 'vertical'
 	}
 
   sdk.setContent(/*html*/ `
-	%%[
-		/* Variables for user */
-		var @blockOneID, @blockTwoID, @flipAnimationDuration, @contentBlockFront, @contentBlockBack, @flipDirection, @rotate
-		
-		/* Paste "Content Block ID" as a value in quotes "123456" */
-		set @blockOneID = ${contentBlockFront}
-		set @blockTwoID = ${contentBlockBack}
-		
-		/* Change animation duration in milliseconds. 1sec = 1000. Default value 600 */
-		
-		set @flipAnimationDuration = ${flipAnimationDuration}
-		
-		/* Choose flip direction: "horizontal" or "vertical". Default value is "vertical" */
-		
-		set @flipDirection = ${flipDirection}
-		
-		
-		
-		/* ============================================================================= */
-		
-		/* Settings */
-		
-		set @contentBlockFront = ContentBlockByID(@blockOneID)
-		set @contentBlockBack = ContentBlockByID(@blockTwoID)
-		
-		if @flipDirection == "vertical" then
-		set @rotate = "rotateX"
-		else
-		set @rotate = "rotateY"
-		endif
-		
-	]%%
-
-	<div class="flipper__wrapper">
+  <div class="flipper__wrapper">
   <style type="text/css">
     .flipper__wrapper {
+      font-size: 50px;
       color: #222;
     }
 
@@ -71,7 +39,7 @@ const paintFlipper = () => {
       -webkit-transform-style: preserve-3d;
       transform-style: preserve-3d;
       display: block;
-      width: 100%;
+      width: 300px;
       height: 200px;
       cursor: pointer;
     }
@@ -82,9 +50,9 @@ const paintFlipper = () => {
       -webkit-transform-style: preserve-3d;
       transform-style: preserve-3d;
       -webkit-transition-property: all;
-      -webkit-transition-duration: %%=v(@flipAnimationDuration)=%%ms;
+      -webkit-transition-duration: 600ms;
       transition-property: all;
-      transition-duration: %%=v(@flipAnimationDuration)=%%ms;
+      transition-duration: 600ms;
     }
 
     /* "backface-visibility" used to Hide the back face of two rotated <div> elements. */
@@ -104,13 +72,13 @@ const paintFlipper = () => {
     .card .back {
       background: #222;
       color: #fff;
-      -webkit-transform: %%=v(@rotate)=%%(180deg);
-      transform: %%=v(@rotate)=%%(180deg);
+      -webkit-transform: rotateY(180deg);
+      transform: rotateY(180deg);
     }
 
     label:hover .card {
-      -webkit-transform: %%=v(@rotate)=%%(20deg);
-      transform: %%=v(@rotate)=%%(20deg);
+      -webkit-transform: rotateY(20deg);
+      transform: rotateY(20deg);
       box-shadow: 0 20px 20px rgba(50, 50, 50, 0.2);
     }
 
@@ -119,40 +87,44 @@ const paintFlipper = () => {
     }
 
     /* Since we hide only rotated div, we use :checked property to swap front and back. */
-   
     :checked + .card {
-      transform: %%=v(@rotate)=%%(180deg);
-      -webkit-transform: %%=v(@rotate)=%%(180deg);
+      transform: rotateX(180deg);
+      -webkit-transform: rotateY(180deg);
     }
-        
 
     label:hover :checked + .card {
-      transform: %%=v(@rotate)=%%(160deg);
-      -webkit-transform: %%=v(@rotate)=%%(160deg);
+      transform: rotateY(160deg);
+      -webkit-transform: rotateY(160deg);
       box-shadow: 0 20px 20px rgba(255, 255, 255, 0.2);
     }
   </style>
-  
   <!-- Use label > input combination to controll state -->
   <label>
-    <input type="checkbox">
+    <input type="checkbox" />
     <div class="card">
-      <div class="front">front %%=v(@contentBlockFront)=%%</div>
-      <div class="back">back %%=v(@contentBlockBack)=%%</div></div></label></div>
+      <div class="front">I'm front</div>
+      <div class="back">I'm back</div>
+    </div>
+  </label>
+</div>
 
 
 `);
   sdk.setData({
-	fontColor: fontColor,
-	text: text,
+	contentBlockFront: contentBlockFront,
+	contentBlockBack : contentBlockBack,
+	flipDirection: flipDirection,
+	flipAnimationDuration: flipAnimationDuration 
   });
 };
 
 sdk.getData((data) => {
-  fontColor = data.fontColor;
-  text = data.text;
-  getSettings();
-  paintFlipper();
+	contentBlockFront = data.contentBlockFront,
+	contentBlockBack = data.contentBlockBack,
+	flipDirection = data.flipDirection,
+	flipAnimationDuration = data.flipAnimationDuration
+	getSettings();
+	paintFlipper();
 });
 
 document
