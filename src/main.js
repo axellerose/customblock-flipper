@@ -4,7 +4,7 @@ var SDK = require('blocksdk');
 var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requirement: not prod worthy
 
 
-var imageFrontUrl, imageBackUrl
+var imageFrontUrl, imageBackUrl, blockHeight, blockWidth
 
 // function debounce (func, wait, immediate) {
 // 	var timeout;
@@ -23,9 +23,10 @@ var imageFrontUrl, imageBackUrl
 
 
 function paintFlipper () {
+	blockHeight = document.getElementById('input-0').value
 	imageFrontUrl = document.getElementById('input-1').value
 	imageBackUrl = document.getElementById('input-2').value
-
+	blockWidth = document.getElementById('input-4').value
 
 	console.log('front', imageFrontUrl, 'back', imageBackUrl)
 	sdk.setContent(`
@@ -51,6 +52,12 @@ function paintFlipper () {
 		-webkit-transition-duration: 600ms;
 		transition-property: all;
 		transition-duration: 600ms;
+	  }
+
+	  .card img {
+		height: ${blockHeight}px;
+		width: ${blockWidth}px;
+		object-fit: contain;
 	  }
   
 	  /* "backface-visibility" used to Hide the back face of two rotated <div> elements. */
@@ -111,14 +118,18 @@ function paintFlipper () {
 	`)
 
 	sdk.setData({
+		blockHeight: blockHeight,
+		blockWidth: blockWidth,
 		imageFrontUrl: imageFrontUrl,
-		imageBackUrl: imageBackUrl,
+		imageBackUrl: imageBackUrl
 
 	})
 }
 
 sdk.getData(function(data) {
 	console.log('data',data)
+	blockHeight = data.blockHeight
+	blockWidth = data.blockWidth
 	imageFrontUrl = data.imageFrontUrl 
 	imageBackUrl = data.imageBackUrl 
 
@@ -128,12 +139,4 @@ sdk.getData(function(data) {
 
 document.getElementById('workspace').addEventListener("input", function () {
 	paintFlipper()
-	
-
 });
-
-document
-  .getElementById("workspace")
-  .addEventListener("input", function () {
-	paintFlipper();
-  });

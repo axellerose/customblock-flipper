@@ -73,7 +73,7 @@ var SDK = __webpack_require__(19);
 var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requirement: not prod worthy
 
 
-var imageFrontUrl, imageBackUrl
+var imageFrontUrl, imageBackUrl, blockHeight, blockWidth
 
 // function debounce (func, wait, immediate) {
 // 	var timeout;
@@ -92,25 +92,23 @@ var imageFrontUrl, imageBackUrl
 
 
 function paintFlipper () {
+	blockHeight = document.getElementById('input-0').value
 	imageFrontUrl = document.getElementById('input-1').value
 	imageBackUrl = document.getElementById('input-2').value
-	// inputTest = document.getElementById('input-0').value
+	blockWidth = document.getElementById('input-4').value
 
 	console.log('front', imageFrontUrl, 'back', imageBackUrl)
 	sdk.setContent(`
 	<div class="flipper__wrapper">
 	<style type="text/css">
 	  .flipper__wrapper {
-		font-size: 50px;
-		color: #222;
 	  }
   
 	  label {
 		-webkit-transform-style: preserve-3d;
 		transform-style: preserve-3d;
 		display: block;
-		width: 300px;
-		height: 200px;
+
 		cursor: pointer;
 	  }
   
@@ -124,13 +122,18 @@ function paintFlipper () {
 		transition-property: all;
 		transition-duration: 600ms;
 	  }
+
+	  .card img {
+		height: ${blockHeight}px;
+		width: ${blockWidth}px;
+		object-fit: contain;
+	  }
   
 	  /* "backface-visibility" used to Hide the back face of two rotated <div> elements. */
 	  .card div {
 		position: absolute;
 		height: 100%;
 		width: 100%;
-		background: #fff;
 		text-align: center;
 		line-height: 200px;
 		-webkit-backface-visibility: hidden;
@@ -140,8 +143,6 @@ function paintFlipper () {
   
 	  /* Only back card remains rotated (hidden) by default */
 	  .card .back {
-		background: #222;
-		color: #fff;
 		-webkit-transform: rotateY(180deg);
 		transform: rotateY(180deg);
 	  }
@@ -186,34 +187,29 @@ function paintFlipper () {
 	`)
 
 	sdk.setData({
+		blockHeight: blockHeight,
+		blockWidth: blockWidth,
 		imageFrontUrl: imageFrontUrl,
-		imageBackUrl: imageBackUrl,
-		// inputTest: inputTest
+		imageBackUrl: imageBackUrl
+
 	})
 }
 
 sdk.getData(function(data) {
 	console.log('data',data)
+	blockHeight = data.blockHeight
+	blockWidth = data.blockWidth
 	imageFrontUrl = data.imageFrontUrl 
 	imageBackUrl = data.imageBackUrl 
-	// imageFrontUrl = data.imageFrontUrl 
-	// imageBackUrl = data.imageBackUrl
-	// inputTest = data.inputTest
+
 	paintFlipper()
 })
 
 
 document.getElementById('workspace').addEventListener("input", function () {
 	paintFlipper()
-	// debounce(paintFlipper, 5000)();	
-
 });
 
-document
-  .getElementById("workspace")
-  .addEventListener("input", function () {
-	paintFlipper();
-  });
 
 /***/ }),
 /* 1 */
