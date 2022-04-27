@@ -72,7 +72,7 @@ __webpack_require__(1);
 var SDK = __webpack_require__(19);
 var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requirement: not prod worthy
 
-var address, width, height, zoom, link, mapsKey;
+var imageFrontUrl, imageBackUrl
 
 function debounce (func, wait, immediate) {
 	var timeout;
@@ -90,59 +90,116 @@ function debounce (func, wait, immediate) {
 }
 
 function paintSettings () {
-	document.getElementById('text-input-id-0').value = mapsKey;
-	document.getElementById('text-input-id-1').value = address;
-	document.getElementById('slider-id-01').value = width;
-	document.getElementById('slider-id-02').value = height;
-	document.getElementById('slider-id-03').value = zoom;
+	document.getElementById('input-1').value = imageFrontUrl
+	document.getElementById('input-2').value = imageBackUrl
 }
 
-function paintSliderValues () {
-	document.getElementById('slider-id-01-val').innerHTML = document.getElementById('slider-id-01').value;
-	document.getElementById('slider-id-02-val').innerHTML = document.getElementById('slider-id-02').value;
-	document.getElementById('slider-id-03-val').innerHTML = document.getElementById('slider-id-03').value;
-}
+function paintFlipper () {
+	imageFrontUrl = document.getElementById('input-1').value
+	imageBackUrl = document.getElementById('input-2').value
 
-function paintMap() {
-	mapsKey = document.getElementById('text-input-id-0').value;
-	address = document.getElementById('text-input-id-1').value;
-	width = document.getElementById('slider-id-01').value;
-	height = document.getElementById('slider-id-02').value;
-	zoom = document.getElementById('slider-id-03').value;
-	link = document.getElementById('text-input-id-2').value;
-	if (!address) {
-		return;
-	}
-	var url = 'https://maps.googleapis.com/maps/api/staticmap?center=' +
-		address.split(' ').join('+') + '&size=' + width + 'x' + height + '&zoom=' + zoom +
-		'&markers=' + address.split(' ').join('+') + '&key=' + mapsKey;
-	sdk.setContent('<a href="' + link + '"><img src="' + url + '" /></a>');
+	sdk.setContent(`
+	<div class="flipper__wrapper">
+	<style type="text/css">
+	  .flipper__wrapper {
+		font-size: 50px;
+		color: #222;
+	  }
+  
+	  label {
+		-webkit-transform-style: preserve-3d;
+		transform-style: preserve-3d;
+		display: block;
+		width: 300px;
+		height: 200px;
+		cursor: pointer;
+	  }
+  
+	  .card {
+		height: 100%;
+		width: 100%;
+		-webkit-transform-style: preserve-3d;
+		transform-style: preserve-3d;
+		-webkit-transition-property: all;
+		-webkit-transition-duration: 600ms;
+		transition-property: all;
+		transition-duration: 600ms;
+	  }
+  
+	  /* "backface-visibility" used to Hide the back face of two rotated <div> elements. */
+	  .card div {
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		background: #fff;
+		text-align: center;
+		line-height: 200px;
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		border-radius: 2px;
+	  }
+  
+	  /* Only back card remains rotated (hidden) by default */
+	  .card .back {
+		background: #222;
+		color: #fff;
+		-webkit-transform: rotateY(180deg);
+		transform: rotateY(180deg);
+	  }
+  
+	  label:hover .card {
+		-webkit-transform: rotateY(20deg);
+		transform: rotateY(20deg);
+		box-shadow: 0 20px 20px rgba(50, 50, 50, 0.2);
+	  }
+  
+	  input {
+		display: none;
+	  }
+  
+	  /* Since we hide only rotated div, we use :checked property to swap front and back. */
+	  :checked + .card {
+		transform: rotateX(180deg);
+		-webkit-transform: rotateY(180deg);
+	  }
+  
+	  label:hover :checked + .card {
+		transform: rotateY(160deg);
+		-webkit-transform: rotateY(160deg);
+		box-shadow: 0 20px 20px rgba(255, 255, 255, 0.2);
+	  }
+	</style>
+	<!-- Use label > input combination to controll state -->
+	<label>
+	  <input type="checkbox" />
+	  <div class="card">
+		<div class="front">
+	  		<img src=${imageFrontUrl} />
+		</div>
+		<div class="back">
+	  		<img src=${imageBackUrl} />
+		</div>
+	  </div>
+	</label>
+  </div>
+	`)
+
 	sdk.setData({
-		address: address,
-		width: width,
-		height: height,
-		zoom: zoom,
-		link: link,
-		mapsKey: mapsKey
-	});
-	localStorage.setItem('googlemapsapikeyforblock', mapsKey);
+		imageFrontUrl: imageFrontUrl,
+		imageBackUrl: imageBackUrl
+	})
 }
 
-sdk.getData(function (data) {
-	address = data.address || '';
-	width = data.width || 400;
-	height = data.height || 300;
-	zoom = data.zoom || 15;
-	link = data.link || '';
-	mapsKey = data.mapsKey || localStorage.getItem('googlemapsapikeyforblock');
-	paintSettings();
-	paintSliderValues();
-	paintMap();
-});
+sdk.getData(function(data) {
+	imageFrontUrl = data.imageFrontUrl || 'https://img.icons8.com/emoji/2x/grinning-face-emoji.png'
+	imageBackUrl = data.imageBackUrl || 'https://img.icons8.com/emoji/2x/pineapple-emoji.png'
+	paintSettings()
+	paintFlipper()
+})
+
 
 document.getElementById('workspace').addEventListener("input", function () {
-	debounce(paintMap, 500)();
-	paintSliderValues();
+	debounce(paintFlipper, 5000)();	
 });
 
 
