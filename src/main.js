@@ -5,30 +5,28 @@ var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requir
 
 var imageFrontUrl, imageBackUrl
 
-function debounce (func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-}
+// function debounce (func, wait, immediate) {
+// 	var timeout;
+// 	return function() {
+// 		var context = this, args = arguments;
+// 		var later = function() {
+// 			timeout = null;
+// 			if (!immediate) func.apply(context, args);
+// 		};
+// 		var callNow = immediate && !timeout;
+// 		clearTimeout(timeout);
+// 		timeout = setTimeout(later, wait);
+// 		if (callNow) func.apply(context, args);
+// 	};
+// }
 
-function paintSettings () {
-	document.getElementById('input-1').value = imageFrontUrl
-	document.getElementById('input-2').value = imageBackUrl
-}
 
 function paintFlipper () {
 	imageFrontUrl = document.getElementById('input-1').value
 	imageBackUrl = document.getElementById('input-2').value
 
+
+	console.log('front', imageFrontUrl, 'back', imageBackUrl)
 	sdk.setContent(`
 	<div class="flipper__wrapper">
 	<style type="text/css">
@@ -112,23 +110,28 @@ function paintFlipper () {
 		</div>
 	  </div>
 	</label>
+
   </div>
+
 	`)
 
 	sdk.setData({
 		imageFrontUrl: imageFrontUrl,
-		imageBackUrl: imageBackUrl
+		imageBackUrl: imageBackUrl,
+
 	})
 }
 
 sdk.getData(function(data) {
-	imageFrontUrl = data.imageFrontUrl || 'https://img.icons8.com/emoji/2x/grinning-face-emoji.png'
-	imageBackUrl = data.imageBackUrl || 'https://img.icons8.com/emoji/2x/pineapple-emoji.png'
-	paintSettings()
+	console.log('data',data)
+	imageFrontUrl = data.imageFrontUrl 
+	imageBackUrl = data.imageBackUrl 
+
 	paintFlipper()
 })
 
 
 document.getElementById('workspace').addEventListener("input", function () {
-	debounce(paintFlipper, 5000)();	
+	paintFlipper()
+	
 });
