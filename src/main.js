@@ -32,16 +32,13 @@ function paintFlipper () {
 	<div class="flipper__wrapper">
 	<style type="text/css">
 	  .flipper__wrapper {
-		font-size: 50px;
-		color: #222;
 	  }
   
 	  label {
 		-webkit-transform-style: preserve-3d;
 		transform-style: preserve-3d;
 		display: block;
-		width: 300px;
-		height: 200px;
+
 		cursor: pointer;
 	  }
   
@@ -61,7 +58,6 @@ function paintFlipper () {
 		position: absolute;
 		height: 100%;
 		width: 100%;
-		background: #fff;
 		text-align: center;
 		line-height: 200px;
 		-webkit-backface-visibility: hidden;
@@ -71,8 +67,6 @@ function paintFlipper () {
   
 	  /* Only back card remains rotated (hidden) by default */
 	  .card .back {
-		background: #222;
-		color: #fff;
 		-webkit-transform: rotateY(180deg);
 		transform: rotateY(180deg);
 	  }
