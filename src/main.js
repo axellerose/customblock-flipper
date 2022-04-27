@@ -39,7 +39,8 @@ function paintFlipper () {
 		-webkit-transform-style: preserve-3d;
 		transform-style: preserve-3d;
 		display: block;
-
+		height: ${blockHeight}px;
+		width: ${blockWidth}px;
 		cursor: pointer;
 	  }
   
