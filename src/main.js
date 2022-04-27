@@ -3,6 +3,7 @@ require('../node_modules/@salesforce-ux/design-system/assets/styles/salesforce-l
 var SDK = require('blocksdk');
 var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requirement: not prod worthy
 
+
 var imageFrontUrl, imageBackUrl
 
 // function debounce (func, wait, immediate) {
@@ -134,4 +135,11 @@ sdk.getData(function(data) {
 document.getElementById('workspace').addEventListener("input", function () {
 	paintFlipper()
 	
+
 });
+
+document
+  .getElementById("workspace")
+  .addEventListener("input", function () {
+	paintFlipper();
+  });

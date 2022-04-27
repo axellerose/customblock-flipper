@@ -72,6 +72,7 @@ __webpack_require__(1);
 var SDK = __webpack_require__(19);
 var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requirement: not prod worthy
 
+
 var imageFrontUrl, imageBackUrl
 
 // function debounce (func, wait, immediate) {
@@ -205,8 +206,14 @@ sdk.getData(function(data) {
 document.getElementById('workspace').addEventListener("input", function () {
 	paintFlipper()
 	// debounce(paintFlipper, 5000)();	
+
 });
 
+document
+  .getElementById("workspace")
+  .addEventListener("input", function () {
+	paintFlipper();
+  });
 
 /***/ }),
 /* 1 */
