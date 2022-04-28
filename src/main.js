@@ -4,14 +4,17 @@ var SDK = require('blocksdk');
 var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requirement: not prod worthy
 
 
-var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection, alignContent
+var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection, alignContent, flipTimerInput, enableTimerCheckbox
 
+var transitionDelay = 0
 
 function paintFlipper () {
 	blockHeight = document.getElementById('input-0').value
 	imageFrontUrl = document.getElementById('input-1').value
 	imageBackUrl = document.getElementById('input-2').value
 	blockWidth = document.getElementById('input-3').value
+	flipTimerInput = document.getElementById('input-4')
+	enableTimerCheckbox = document.getElementById('input-5')
 
 	// Set direction
 	if (document.getElementById('radio-1').checked) {
@@ -28,6 +31,16 @@ function paintFlipper () {
 		alignContent = 'center'
 	} else if(document.getElementById('radio-5').checked) {
 		alignContent = 'flex-end'
+	}
+
+	// Set timer
+
+	if (enableTimerCheckbox.checked) {
+		flipTimerInput.disabled = false
+		transitionDelay = flipTimerInput.value
+	} else {
+		flipTimerInput.disabled = true
+		transitionDelay = 0
 	}
 
 
@@ -97,6 +110,7 @@ function paintFlipper () {
 	  :checked + .card {
 		transform: ${flipDirection}(180deg);
 		-webkit-transform: ${flipDirection}(180deg);
+		transition-delay: ${transitionDelay}ms;
 	  }
   
 	  label:hover :checked + .card {
@@ -126,7 +140,9 @@ function paintFlipper () {
 		blockHeight: blockHeight,
 		blockWidth: blockWidth,
 		imageFrontUrl: imageFrontUrl,
-		imageBackUrl: imageBackUrl
+		imageBackUrl: imageBackUrl,
+		flipTimerInput: flipTimerInput,
+		enableTimerCheckbox: enableTimerCheckbox
 
 	})
 }
@@ -136,7 +152,9 @@ sdk.getData(function(data) {
 	blockHeight = data.blockHeight
 	blockWidth = data.blockWidth
 	imageFrontUrl = data.imageFrontUrl 
-	imageBackUrl = data.imageBackUrl 
+	imageBackUrl = data.imageBackUrl
+	flipTimerInput = flipTimerInput 
+	enableTimerCheckbox = enableTimerCheckbox
 
 	paintFlipper()
 })
