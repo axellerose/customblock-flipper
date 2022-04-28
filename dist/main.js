@@ -148,8 +148,8 @@ function paintFlipper () {
   
 	  /* Only back card remains rotated (hidden) by default */
 	  .card .back {
-		-webkit-transform: rotateY(180deg);
-		transform: rotateY(180deg);
+		-webkit-transform: ${flipDirection}(180deg);
+		transform: ${flipDirection}(180deg);
 	  }
   
 	  label:hover .card {
