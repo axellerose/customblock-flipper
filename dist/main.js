@@ -73,27 +73,39 @@ var SDK = __webpack_require__(19);
 var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requirement: not prod worthy
 
 
-var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection
+var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection, alignContent
 
 
 function paintFlipper () {
 	blockHeight = document.getElementById('input-0').value
 	imageFrontUrl = document.getElementById('input-1').value
 	imageBackUrl = document.getElementById('input-2').value
-	blockWidth = document.getElementById('input-4').value
+	blockWidth = document.getElementById('input-3').value
 
+	// Set direction
 	if (document.getElementById('radio-1').checked) {
 		flipDirection = 'rotateY'
 	} else if(document.getElementById('radio-2').checked) {
 		flipDirection = 'rotateX'
 	}
 
+	// Set position
 
-	console.log('front', imageFrontUrl, 'back', imageBackUrl)
+	if (document.getElementById('radio-3').checked) {
+		alignContent = 'flex-start'
+	} else if(document.getElementById('radio-4').checked) {
+		alignContent = 'center'
+	} else if(document.getElementById('radio-5').checked) {
+		alignContent = 'flex-end'
+	}
+
+
 	sdk.setContent(`
 	<div class="flipper__wrapper">
 	<style type="text/css">
 	  .flipper__wrapper {
+		display: flex;
+		justify-content: ${alignContent};
 	  }
   
 	  label {

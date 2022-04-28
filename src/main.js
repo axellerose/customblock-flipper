@@ -11,22 +11,32 @@ function paintFlipper () {
 	blockHeight = document.getElementById('input-0').value
 	imageFrontUrl = document.getElementById('input-1').value
 	imageBackUrl = document.getElementById('input-2').value
-	blockWidth = document.getElementById('input-4').value
+	blockWidth = document.getElementById('input-3').value
 
+	// Set direction
 	if (document.getElementById('radio-1').checked) {
 		flipDirection = 'rotateY'
 	} else if(document.getElementById('radio-2').checked) {
 		flipDirection = 'rotateX'
 	}
 
+	// Set position
 
-	console.log('front', imageFrontUrl, 'back', imageBackUrl)
+	if (document.getElementById('radio-3').checked) {
+		alignContent = 'flex-start'
+	} else if(document.getElementById('radio-4').checked) {
+		alignContent = 'center'
+	} else if(document.getElementById('radio-5').checked) {
+		alignContent = 'flex-end'
+	}
+
+
 	sdk.setContent(`
 	<div class="flipper__wrapper">
 	<style type="text/css">
 	  .flipper__wrapper {
 		display: flex;
-		justify-content: center;
+		justify-content: ${alignContent};
 	  }
   
 	  label {
