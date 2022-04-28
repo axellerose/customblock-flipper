@@ -73,22 +73,7 @@ var SDK = __webpack_require__(19);
 var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requirement: not prod worthy
 
 
-var imageFrontUrl, imageBackUrl, blockHeight, blockWidth
-
-// function debounce (func, wait, immediate) {
-// 	var timeout;
-// 	return function() {
-// 		var context = this, args = arguments;
-// 		var later = function() {
-// 			timeout = null;
-// 			if (!immediate) func.apply(context, args);
-// 		};
-// 		var callNow = immediate && !timeout;
-// 		clearTimeout(timeout);
-// 		timeout = setTimeout(later, wait);
-// 		if (callNow) func.apply(context, args);
-// 	};
-// }
+var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection
 
 
 function paintFlipper () {
@@ -96,6 +81,13 @@ function paintFlipper () {
 	imageFrontUrl = document.getElementById('input-1').value
 	imageBackUrl = document.getElementById('input-2').value
 	blockWidth = document.getElementById('input-4').value
+
+	if (document.getElementById('radio-1').checked) {
+		flipDirection = 'rotateY'
+	} else if(document.getElementById('radio-2').checked) {
+		flipDirection = 'rotateX'
+	}
+
 
 	console.log('front', imageFrontUrl, 'back', imageBackUrl)
 	sdk.setContent(`
@@ -108,7 +100,8 @@ function paintFlipper () {
 		-webkit-transform-style: preserve-3d;
 		transform-style: preserve-3d;
 		display: block;
-
+		height: ${blockHeight}px;
+		width: ${blockWidth}px;
 		cursor: pointer;
 	  }
   
@@ -148,8 +141,8 @@ function paintFlipper () {
 	  }
   
 	  label:hover .card {
-		-webkit-transform: rotateY(20deg);
-		transform: rotateY(20deg);
+		-webkit-transform: ${flipDirection}(20deg);
+		transform: ${flipDirection}(20deg);
 		box-shadow: 0 20px 20px rgba(50, 50, 50, 0.2);
 	  }
   
@@ -159,13 +152,13 @@ function paintFlipper () {
   
 	  /* Since we hide only rotated div, we use :checked property to swap front and back. */
 	  :checked + .card {
-		transform: rotateX(180deg);
-		-webkit-transform: rotateY(180deg);
+		transform: ${flipDirection}(180deg);
+		-webkit-transform: ${flipDirection}(180deg);
 	  }
   
 	  label:hover :checked + .card {
-		transform: rotateY(160deg);
-		-webkit-transform: rotateY(160deg);
+		transform: ${flipDirection}(160deg);
+		-webkit-transform: ${flipDirection}(160deg);
 		box-shadow: 0 20px 20px rgba(255, 255, 255, 0.2);
 	  }
 	</style>
