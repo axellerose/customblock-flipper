@@ -4,7 +4,7 @@ var SDK = require('blocksdk');
 var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requirement: not prod worthy
 
 
-var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection
+var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection, alignContent
 
 
 function paintFlipper () {
@@ -25,6 +25,8 @@ function paintFlipper () {
 	<div class="flipper__wrapper">
 	<style type="text/css">
 	  .flipper__wrapper {
+		display: flex;
+		justify-content: center;
 	  }
   
 	  label {
