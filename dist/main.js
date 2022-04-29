@@ -75,8 +75,6 @@ var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requir
 
 var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection, alignContent, flipTimerInput, enableTimerCheckbox
 
-var transitionDelay = 0
-
 function paintFlipper () {
 	blockHeight = document.getElementById('input-0').value
 	imageFrontUrl = document.getElementById('input-1').value
@@ -106,7 +104,7 @@ function paintFlipper () {
 
 	if (enableTimerCheckbox.checked) {
 		flipTimerInput.disabled = false
-		transitionDelay = flipTimerInput.value
+		setTimeout(() => {document.getElementById('flipper-checkbox').checked = true}, flipTimerInput.value)
 	} else {
 		flipTimerInput.disabled = true
 		transitionDelay = 0
@@ -179,7 +177,6 @@ function paintFlipper () {
 	  :checked + .card {
 		transform: ${flipDirection}(180deg);
 		-webkit-transform: ${flipDirection}(180deg);
-		transition-delay: ${transitionDelay}ms;
 	  }
   
 	  label:hover :checked + .card {
@@ -190,7 +187,7 @@ function paintFlipper () {
 	</style>
 	<!-- Use label > input combination to controll state -->
 	<label>
-	  <input type="checkbox" />
+	  <input type="checkbox" id="flipper-checkbox" name="flipper-checkbox"/>
 	  <div class="card">
 		<div class="front">
 	  		<img src=${imageFrontUrl} />
