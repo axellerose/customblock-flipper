@@ -75,7 +75,12 @@ var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requir
 
 var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection, alignContent, flipTimerInput, enableTimerCheckbox
 
+var flipperDisabled = ''
+var flipperChecked = ''
+
 function paintFlipper () {
+	console.log(document.getElementById('flipper-checkbox'))
+
 	blockHeight = document.getElementById('input-0').value
 	imageFrontUrl = document.getElementById('input-1').value
 	imageBackUrl = document.getElementById('input-2').value
@@ -102,12 +107,15 @@ function paintFlipper () {
 
 	// Set timer
 
-	if (enableTimerCheckbox.checked) {
+	if (enableTimerCheckbox.checked == true) {
+		
 		flipTimerInput.disabled = false
-		setTimeout(() => {document.getElementById('flipper-checkbox').checked = true}, flipTimerInput.value)
+		flipperDisabled = 'disabled'
+		setTimeout(() => {flipperChecked = 'checked'}, flipTimerInput.value)
 	} else {
+		flipperChecked = ''
+		flipperDisabled = ''
 		flipTimerInput.disabled = true
-		transitionDelay = 0
 	}
 
 
@@ -163,14 +171,19 @@ function paintFlipper () {
 		transform: ${flipDirection}(180deg);
 	  }
   
-	  label:hover .card {
+	  /* label:hover .card {
 		-webkit-transform: ${flipDirection}(20deg);
 		transform: ${flipDirection}(20deg);
 		box-shadow: 0 20px 20px rgba(50, 50, 50, 0.2);
 	  }
-  
+	*/
+
 	  input {
 		display: none;
+	  }
+
+	  inpiut[disabled]:hover{
+		  cursor: wait;
 	  }
   
 	  /* Since we hide only rotated div, we use :checked property to swap front and back. */
@@ -179,15 +192,15 @@ function paintFlipper () {
 		-webkit-transform: ${flipDirection}(180deg);
 	  }
   
-	  label:hover :checked + .card {
-		transform: ${flipDirection}(160deg);
-		-webkit-transform: ${flipDirection}(160deg);
-		box-shadow: 0 20px 20px rgba(255, 255, 255, 0.2);
+	  label :checked + .card {
+		transform: ${flipDirection}(180deg);
+		-webkit-transform: ${flipDirection}(180deg);
+		// box-shadow: 0 20px 20px rgba(255, 255, 255, 0.2);
 	  }
 	</style>
 	<!-- Use label > input combination to controll state -->
 	<label>
-	  <input type="checkbox" id="flipper-checkbox" name="flipper-checkbox"/>
+	  <input type="checkbox" id="flipper-checkbox" name="flipper-checkbox" ${flipperDisabled} ${flipperChecked}/>
 	  <div class="card">
 		<div class="front">
 	  		<img src=${imageFrontUrl} />
