@@ -6,11 +6,10 @@ var sdk = new SDK(null, null, true); // 3rd argument true bypassing https requir
 
 var imageFrontUrl, imageBackUrl, blockHeight, blockWidth, flipDirection, alignContent, flipTimerInput, enableTimerCheckbox
 
-var flipperDisabled = ''
-var flipperChecked = ''
+var flipperDisabled = 'enabled'
+var flipperChecked = 'unchecked'
 
 function paintFlipper () {
-	console.log(document.getElementById('flipper-checkbox'))
 
 	blockHeight = document.getElementById('input-0').value
 	imageFrontUrl = document.getElementById('input-1').value
@@ -42,11 +41,13 @@ function paintFlipper () {
 		
 		flipTimerInput.disabled = false
 		flipperDisabled = 'disabled'
-		setTimeout(() => {flipperChecked = 'checked'}, 3000)
+		setTimeout(() => {flipperChecked = 'checked', console.log('checked in set timeout', flipperChecked, flipTimerInput.value)}, flipTimerInput.value)
 	} else {
-		flipperChecked = ''
-		flipperDisabled = ''
+		flipperChecked = 'unchecked'
+		flipperDisabled = 'enabled'
 		flipTimerInput.disabled = true
+
+		console.log('unchecked', flipperChecked, flipTimerInput.value)
 	}
 
 
@@ -149,7 +150,9 @@ function paintFlipper () {
 		imageFrontUrl: imageFrontUrl,
 		imageBackUrl: imageBackUrl,
 		flipTimerInput: flipTimerInput,
-		enableTimerCheckbox: enableTimerCheckbox
+		enableTimerCheckbox: enableTimerCheckbox,
+		flipperDisabled : flipperDisabled,
+		flipperChecked : flipperChecked
 
 	})
 }
@@ -162,6 +165,8 @@ sdk.getData(function(data) {
 	imageBackUrl = data.imageBackUrl
 	flipTimerInput = flipTimerInput 
 	enableTimerCheckbox = enableTimerCheckbox
+	flipperDisabled = flipperDisabled
+	flipperChecked = flipperChecked
 
 	paintFlipper()
 })
