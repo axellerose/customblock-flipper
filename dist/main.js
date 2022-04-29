@@ -111,7 +111,7 @@ function paintFlipper () {
 		
 		flipTimerInput.disabled = false
 		flipperDisabled = 'disabled'
-		setTimeout(() => {flipperChecked = 'checked'}, flipTimerInput.value)
+		setTimeout(() => {flipperChecked = 'checked'}, 3000)
 	} else {
 		flipperChecked = ''
 		flipperDisabled = ''

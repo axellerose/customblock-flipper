@@ -42,7 +42,7 @@ function paintFlipper () {
 		
 		flipTimerInput.disabled = false
 		flipperDisabled = 'disabled'
-		setTimeout(() => {flipperChecked = 'checked'}, flipTimerInput.value)
+		setTimeout(() => {flipperChecked = 'checked'}, 3000)
 	} else {
 		flipperChecked = ''
 		flipperDisabled = ''
@@ -113,9 +113,6 @@ function paintFlipper () {
 		display: none;
 	  }
 
-	  inpiut[disabled]:hover{
-		  cursor: wait;
-	  }
   
 	  /* Since we hide only rotated div, we use :checked property to swap front and back. */
 	  :checked + .card {
