@@ -9,14 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tbesluau/sampleblock.git"
+    "url": "git+https://github.com/axellerose/customblock-flipper"
   },
-  "author": "Thomas Besluau",
+  "author": "Alex G",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tbesluau/sampleblock/issues"
-  },
-  "homepage": "https://github.com/tbesluau/sampleblock#readme",
+
+  "homepage": "https://github.com/axellerose/customblock-flipper#readme",
   "dependencies": {
     "@salesforce-ux/design-system": "^2.5.2",
     "blocksdk": "^1.0.0",
