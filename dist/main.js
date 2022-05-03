@@ -84,8 +84,8 @@ function paintFlipper () {
 	imageFrontUrl = document.getElementById('input-1').value
 	imageBackUrl = document.getElementById('input-2').value
 	blockWidth = document.getElementById('input-3').value
-	flipTimerInput = document.getElementById('input-4')
-	enableTimerCheckbox = document.getElementById('input-5')
+	// flipTimerInput = document.getElementById('input-4')
+	// enableTimerCheckbox = document.getElementById('input-5')
 
 	// Set direction
 	if (document.getElementById('radio-1').checked) {
@@ -103,22 +103,6 @@ function paintFlipper () {
 	} else if(document.getElementById('radio-5').checked) {
 		alignContent = 'flex-end'
 	}
-
-	// Set timer
-
-	if (enableTimerCheckbox.checked == true) {
-		
-		flipTimerInput.disabled = false
-		flipperDisabled = 'disabled'
-		setTimeout(() => {flipperChecked = 'checked', console.log('checked in set timeout', flipperChecked, flipTimerInput.value)}, flipTimerInput.value)
-	} else {
-		flipperChecked = 'unchecked'
-		flipperDisabled = 'enabled'
-		flipTimerInput.disabled = true
-
-		console.log('unchecked', flipperChecked, flipTimerInput.value)
-	}
-
 
 	sdk.setContent(`
 	<div class="flipper__wrapper">
@@ -172,12 +156,12 @@ function paintFlipper () {
 		transform: ${flipDirection}(180deg);
 	  }
   
-	  /* label:hover .card {
+	  label:hover .card {
 		-webkit-transform: ${flipDirection}(20deg);
 		transform: ${flipDirection}(20deg);
 		box-shadow: 0 20px 20px rgba(50, 50, 50, 0.2);
 	  }
-	*/
+	
 
 	  input {
 		display: none;
@@ -193,7 +177,7 @@ function paintFlipper () {
 	  label :checked + .card {
 		transform: ${flipDirection}(180deg);
 		-webkit-transform: ${flipDirection}(180deg);
-		// box-shadow: 0 20px 20px rgba(255, 255, 255, 0.2);
+		box-shadow: 0 20px 20px rgba(255, 255, 255, 0.2);
 	  }
 	</style>
 	<!-- Use label > input combination to controll state -->
@@ -218,24 +202,17 @@ function paintFlipper () {
 		blockWidth: blockWidth,
 		imageFrontUrl: imageFrontUrl,
 		imageBackUrl: imageBackUrl,
-		flipTimerInput: flipTimerInput,
-		enableTimerCheckbox: enableTimerCheckbox,
-		flipperDisabled : flipperDisabled,
-		flipperChecked : flipperChecked
-
+		alignContent: alignContent
 	})
 }
 
 sdk.getData(function(data) {
-	console.log('data',data)
+
 	blockHeight = data.blockHeight
 	blockWidth = data.blockWidth
 	imageFrontUrl = data.imageFrontUrl 
 	imageBackUrl = data.imageBackUrl
-	flipTimerInput = flipTimerInput 
-	enableTimerCheckbox = enableTimerCheckbox
-	flipperDisabled = flipperDisabled
-	flipperChecked = flipperChecked
+	alignContent = data.alignContentS
 
 	paintFlipper()
 })
